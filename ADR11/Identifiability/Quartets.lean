@@ -56,7 +56,7 @@ private theorem quart_nonempty_of_mem_unroot (σ : SpeciesTree X) {A : Finset X}
     (h : A ∈ unroot σ.clusters) : A.Nonempty := by
   rcases quart_mem_unroot.1 h with ⟨h1, _⟩ | ⟨_, h2⟩
   · exact σ.nonempty_of_mem A h1
-  · rw [nonempty_iff_ne_empty]
+  · rw [ne_empty_iff_nonempty.symm]
     rintro rfl
     exact h2 compl_empty
 

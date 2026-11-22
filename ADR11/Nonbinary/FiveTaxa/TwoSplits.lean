@@ -107,7 +107,7 @@ theorem ac2_group_p5 {τ : SpeciesTree (Fin 5)} (hR : τ.clusters ∈ rootings5 
     (hg : sh_groupOf τ.clusters = .p5) : τ.clusters = hierarchyOf {{0, 1}, {3, 4}} := by
   simp only [rootings5, mem_insert, mem_singleton] at hR
   rcases hR with h | h | h | h | h | h | h | h | h | h <;> rw [h] at hg ⊢ <;>
-    first | rfl | exact absurd hg (by decide +kernel)
+    exact absurd hg (by decide +kernel)
 
 /-- Among the rootings of `U5 2`, those in the shape group of the balanced tree and `P₆` are the two
 balanced trees and the two rootings of shape `P₆`. -/

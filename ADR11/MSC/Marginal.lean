@@ -417,7 +417,7 @@ private theorem marg_restrictForest_sup {ι : Type*} (e : L' ↪ L) (T : Finset 
   classical
   induction T using Finset.induction_on with
   | empty => simp [marg_restrictForest_empty]
-  | insert i T hi ih => rw [sup_insert, sup_insert, sup_eq_union, sup_eq_union,
+  | insert i T hi ih => rw [sup_insert, sup_insert,
       marg_restrictForest_union, ih]
 
 omit [Fintype X] in
@@ -800,7 +800,7 @@ private theorem marg_forestDist_eq_empty {H : Finset (Finset X)} (hH : IsHierarc
     intro G hG
     by_contra h
     obtain ⟨hGf, -, hlin⟩ := forestDist_support hH len s hB h
-    obtain ⟨C, hC⟩ := nonempty_iff_ne_empty.2 hG
+    obtain ⟨C, hC⟩ := ne_empty_iff_nonempty.symm.2 hG
     obtain ⟨l, hl⟩ := hGf.1 C hC
     have hl' := subset_lineages hC hl
     rw [hlin, mem_filter] at hl'

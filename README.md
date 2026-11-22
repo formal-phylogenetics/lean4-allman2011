@@ -152,7 +152,7 @@ lake build            # build the library, the Challenge and the Solution
 lake env lean scripts/Audit.lean    # axiom and dependency audit
 ```
 
-The toolchain is Lean `v4.35.0-rc3` with Mathlib's tag `v4.35.0-rc3`. From a fresh clone, the
+The toolchain is Lean `v4.37.0-rc1` with Mathlib's tag `v4.37.0-rc1`. From a fresh clone, the
 build takes about four minutes on a 20-core machine after downloading Mathlib's cache.
 
 Two Lean files are generated, and their generators are in [`scripts/`](scripts):
