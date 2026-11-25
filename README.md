@@ -1,27 +1,27 @@
-# Identifying the rooted species tree from unrooted gene trees, in Lean 4
+# Allman et al. 2011: identifying the rooted species tree from unrooted gene trees, in Lean
 
-[![Lean Action CI](https://github.com/vltanh/lean4-allman2011/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/vltanh/lean4-allman2011/actions/workflows/lean_action_ci.yml)
+[![CI](https://github.com/vltanh/lean4-allman2011/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/vltanh/lean4-allman2011/actions/workflows/lean_action_ci.yml)
 
-A formalization in Lean 4 and Mathlib of
-
-> Elizabeth S. Allman, James H. Degnan, John A. Rhodes, *Identifying the rooted species tree from
-> the distribution of unrooted gene trees under the coalescent*, J. Math. Biol. 62 (2011)
-> 833–862, [doi:10.1007/s00285-010-0355-7](https://doi.org/10.1007/s00285-010-0355-7),
-> [arXiv:0912.4472v2](https://arxiv.org/abs/0912.4472v2).
-
-Under the multispecies coalescent, gene trees evolve inside a species tree: lineages coalesce by
-Kingman's coalescent within each ancestral population. The paper shows that the distribution of
-*unrooted* topological gene trees, with one lineage sampled per taxon, determines the rooted
-species tree and its internal branch lengths when there are at least five taxa (Theorem 9), while
-for four taxa it determines only the unrooted species tree (Proposition 3); with several lineages
-from some taxa, fewer taxa suffice and pendant lengths are determined too (Corollary 10); and all
-of this holds for nonbinary species trees (Proposition 11).
+A Lean 4 formalization of Elizabeth S. Allman, James H. Degnan and John A. Rhodes (2011),
+"Identifying the rooted species tree from the distribution of unrooted gene trees under the
+coalescent", [J. Math. Biol. 62 (2011) 833-862](https://doi.org/10.1007/s00285-010-0355-7),
+[arXiv:0912.4472v2](https://arxiv.org/abs/0912.4472v2). Under the multispecies coalescent, gene
+trees evolve inside a species tree: lineages coalesce by Kingman's coalescent within each ancestral
+population. The paper shows that the distribution of *unrooted* topological gene trees, with one
+lineage sampled per taxon, determines the rooted species tree and its internal branch lengths when
+there are at least five taxa (Theorem 9), while for four taxa it determines only the unrooted
+species tree (Proposition 3); with several lineages from some taxa, fewer taxa suffice and pendant
+lengths are determined too (Corollary 10); and all of this holds for nonbinary species trees
+(Proposition 11).
 
 The formalization is unconditional: every result of the paper is proved, by the paper's
-arguments, together with the results it cites. It is a paper of the collection of formalizations rooted at
-[lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics), which holds the model
-(species trees, Kingman's coalescent, the multispecies coalescent) and the general results: the
-theorems here are stated on its types, so that other repositories of the collection can use them.
+arguments, together with the results it cites.
+
+This paper is one of the hub [lean4-phylo-species-tree](https://github.com/vltanh/lean4-phylo-species-tree),
+on species tree estimation, in the collection rooted at [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics).
+Its theorems are stated on the types of lean4-phylogenetics, which holds the model (species trees,
+Kingman's coalescent, the multispecies coalescent) and the general results, so that other
+repositories of the collection can use them.
 
 ## Status
 
@@ -163,15 +163,22 @@ quartet-based methods such as ASTRAL (Mirarab et al. 2014). We found no earlier 
 this paper; the Lean library [SauersML/Descent](https://github.com/SauersML/Descent) formalizes parts
 of coalescent theory, without the multispecies coalescent or unrooted gene trees, and was not used.
 
+## What's next
+
+A private `NEXT.md` holds the candidate follow-up papers.
+
 ## Credits
 
-- Made by Claude Opus 5.5 (`claude-opus-5-5`, Anthropic) in Claude Code, at the request and under
-  the direction of The-Anh Vu-Le, by the procedure of the skill
-  [`formalize-math-paper`](https://github.com/vltanh/formalize-math-paper): the formalization and
-  the audit on 2026-10-03, and the move into the collection of lean4-phylogenetics on 2026-11-24.
-- No person has reviewed the proofs. [`docs/Allman2011/CREDITS.md`](docs/Allman2011/CREDITS.md)
+- Maintainer: The-Anh Vu-Le, who requested and supervised the formalization.
+- Formalization: Claude Opus 5.5 (`claude-opus-5-5`, Anthropic) in Claude Code, following the
+  [formalize-math-paper](https://github.com/vltanh/formalize-math-paper) procedure, made the
+  formalization and the audit on 2026-10-03 and moved the repository into the collection of
+  lean4-phylogenetics on 2026-11-24. [`docs/Allman2011/CREDITS.md`](docs/Allman2011/CREDITS.md)
   gives the details and the figures.
+- Review: no person has reviewed the proofs; Lean's kernel checks them. AI agents reviewed the
+  statements against the TeX source before the proofs were written, checked the audit's findings,
+  and compared the formal proofs with the paper's.
 
 ## License
 
-[Apache-2.0](LICENSE).
+Apache-2.0: [LICENSE](LICENSE).
