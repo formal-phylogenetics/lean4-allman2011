@@ -35,8 +35,9 @@ Status of the formalization:
 - [`palomar/Allman2011/Challenge.lean`](../../palomar/Allman2011/Challenge.lean) states the main results in the vocabulary of Mathlib, with
   its own copy of the definitions ([`Allman2011/Defs.lean`](../../Allman2011/Defs.lean)); [`palomar/Allman2011/Solution.lean`](../../palomar/Allman2011/Solution.lean)
   proves them from the library through [`Allman2011/Bridge.lean`](../../Allman2011/Bridge.lean), which proves that these
-  definitions agree with those of lean4-phylogenetics, and Comparator accepts the pair (Lean's
-  kernel and NanoDa).
+  definitions agree with those of lean4-phylogenetics. Comparator accepts the statements and the
+  axioms of the pair; its replay of the proofs in Lean's kernel and NanoDa needs more memory than
+  the machine of this formalization (64 GB) and has not been completed.
 - No result of the paper had to be corrected. A few statements make explicit an assumption that the
   paper leaves implicit: at least one sampled gene (that gene trees of positive probability are
   binary), a nonempty set of taxa `S` in Lemma 5 (for `σ⁺(S)` to exist), and the ranges of `n` in

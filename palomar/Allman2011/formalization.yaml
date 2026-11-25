@@ -135,7 +135,7 @@ review:
     - "Claude Opus 5.5 (claude-opus-5-5), one sub-agent, 2026-10-03, before the proofs: every statement against the paper's TeX source"
     - "Claude Opus 5.5 (claude-opus-5-5), one sub-agent, 2026-10-03: every finding of the audit against the TeX source"
     - "Claude Opus 5.5 (claude-opus-5-5), two sub-agents, 2026-10-03: the formal proofs against the paper's"
-  notes: "No human has reviewed the formalization. AI agents reviewed every statement against the paper's TeX source before the proofs were written, and checked every finding of the audit against the TeX source; the Challenge is compared to the Solution by Comparator."
+  notes: "No human has reviewed the formalization. AI agents reviewed every statement against the paper's TeX source before the proofs were written, and checked every finding of the audit against the TeX source; Comparator accepts the statements and the axioms of the Challenge and the Solution; its kernel replays need more memory than the machine of this formalization (64 GB) and were not completed locally."
 
 alignment:
   namespace: "Allman2011Challenge"
