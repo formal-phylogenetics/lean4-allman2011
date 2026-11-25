@@ -96,7 +96,7 @@ sources:
       lean4-phylogenetics, by an invariant of the shapes.
 
 related_formalizations:
-  - id: "https://github.com/vltanh/lean4-phylogenetics"
+  - id: "https://github.com/formal-phylogenetics/lean4-phylogenetics"
     relationship: "builds-on"
     note: >-
       Required at commit 3fcabfd7d191990dda268b0b3968d945b65eb59a: species trees and hierarchies,
@@ -253,4 +253,4 @@ alignment:
       status: "proved"
       note: "The paper's explicit probabilities; ties the model's definition to known values."
 
-acknowledgements: "Lean and Mathlib; lean4-phylogenetics (https://github.com/vltanh/lean4-phylogenetics), the library of the collection, for the definitions on which the paper's results are stated and for the cited results it proves; the authors of the paper and of its sources."
+acknowledgements: "Lean and Mathlib; lean4-phylogenetics (https://github.com/formal-phylogenetics/lean4-phylogenetics), the library of the collection, for the definitions on which the paper's results are stated and for the cited results it proves; the authors of the paper and of its sources."

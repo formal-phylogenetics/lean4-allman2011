@@ -1,6 +1,6 @@
 # Allman et al. 2011: identifying the rooted species tree from unrooted gene trees, in Lean
 
-[![CI](https://github.com/vltanh/lean4-allman2011/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/vltanh/lean4-allman2011/actions/workflows/lean_action_ci.yml)
+[![CI](https://github.com/formal-phylogenetics/lean4-allman2011/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/formal-phylogenetics/lean4-allman2011/actions/workflows/lean_action_ci.yml)
 
 A Lean 4 formalization of Elizabeth S. Allman, James H. Degnan and John A. Rhodes (2011),
 "Identifying the rooted species tree from the distribution of unrooted gene trees under the
@@ -17,8 +17,8 @@ lengths are determined too (Corollary 10); and all of this holds for nonbinary s
 The formalization is unconditional: every result of the paper is proved, by the paper's
 arguments, together with the results it cites.
 
-This paper belongs to the hub [lean4-phylo-species-tree](https://github.com/vltanh/lean4-phylo-species-tree),
-on species tree estimation, in the collection rooted at [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics).
+This paper belongs to the hub [lean4-phylo-species-tree](https://github.com/formal-phylogenetics/lean4-phylo-species-tree),
+on species tree estimation, in the collection rooted at [lean4-phylogenetics](https://github.com/formal-phylogenetics/lean4-phylogenetics).
 Its theorems are stated on the types of lean4-phylogenetics, which holds the model (species trees,
 Kingman's coalescent, the multispecies coalescent) and the general results, so that other
 repositories of the collection can use them.
@@ -87,11 +87,11 @@ Section 7).
 
 ## Dependencies
 
-- [lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics) (`Phylogenetics`), at the
-  collection's pinned commit: species trees and hierarchies, Kingman's coalescent and Tavaré's
-  formula, the multispecies coalescent with its marginalization, relabelling and limits, the small
-  named trees, the verified evaluator of the gene tree distributions of small species trees, the
-  reconstruction of trees from quartets, and the counts of trees and shapes.
+- [lean4-phylogenetics](https://github.com/formal-phylogenetics/lean4-phylogenetics)
+  (`Phylogenetics`), at the collection's pinned commit: species trees and hierarchies, Kingman's
+  coalescent and Tavaré's formula, the multispecies coalescent with its marginalization, relabelling
+  and limits, the small named trees, the verified evaluator of the gene tree distributions of small
+  species trees, the reconstruction of trees from quartets, and the counts of trees and shapes.
 - Mathlib.
 
 ## Palomar

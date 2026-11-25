@@ -45,8 +45,8 @@ Figures, from 2026-10-03 13:25 to 19:51 (UTC−5), the commit that completes the
 ## Into the collection of lean4-phylogenetics (2026-11-24)
 
 The maintainer asked to bring the repository into the collection of formalizations rooted at
-[lean4-phylogenetics](https://github.com/vltanh/lean4-phylogenetics), so that other repositories
-can require it and use its theorems on that library's types.
+[lean4-phylogenetics](https://github.com/formal-phylogenetics/lean4-phylogenetics), so that other
+repositories can require it and use its theorems on that library's types.
 
 How it was made, by one agent (Claude Opus 5.5) working for a coordinating session:
 
