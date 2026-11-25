@@ -2,75 +2,192 @@ module
 
 public meta import Lean.Elab.Command
 public meta import Lean.DocString
--- One `import all` line per module of the library, so that proofs are visible to the dependency
--- traversal (the module system hides them from a plain `import`). Generate the lines with
---   find ADR11 -name '*.lean' | sort | sed 's/\.lean$//; s#/#.#g; s/^/import all /'
-import all ADR11.AppendixA
-import all ADR11.Basic
-import all ADR11.Coalescent.Absorption
-import all ADR11.Coalescent.Factorization
-import all ADR11.Coalescent.Forest
-import all ADR11.Coalescent.Outcome
-import all ADR11.Computation.Caterpillar5
-import all ADR11.Computation.Codes
-import all ADR11.Computation.Engine
-import all ADR11.Computation.FiveTaxa
-import all ADR11.Computation.FourTaxa
-import all ADR11.Computation.ThreeTaxa
-import all ADR11.Computation.Toolkit
-import all ADR11.Defs
-import all ADR11.Discussion
-import all ADR11.External.Cayley.Shapes
-import all ADR11.External.Quartets.Steel
-import all ADR11.External.Tavare.Formula
-import all ADR11.FiveTaxa.Balanced
-import all ADR11.FiveTaxa.Basic
-import all ADR11.FiveTaxa.Caterpillar
-import all ADR11.FiveTaxa.Explanations
-import all ADR11.FiveTaxa.Lemma4
-import all ADR11.FiveTaxa.Pseudocaterpillar
-import all ADR11.FourTaxa
-import all ADR11.Identifiability.Corollary10
-import all ADR11.Identifiability.Corollary6
-import all ADR11.Identifiability.FiveTaxa.Binary
-import all ADR11.Identifiability.FiveTaxa.Classes
-import all ADR11.Identifiability.FiveTaxa.Common
-import all ADR11.Identifiability.FourTaxaAnalysis
-import all ADR11.Identifiability.Lemma5
-import all ADR11.Identifiability.Proposition3
-import all ADR11.Identifiability.Proposition8
-import all ADR11.Identifiability.Quartets
-import all ADR11.Identifiability.Theorem9
-import all ADR11.Identifiability.Unrooted
-import all ADR11.Introduction
-import all ADR11.Introduction.Counts
-import all ADR11.Introduction.Proposition1
-import all ADR11.MSC.Basic
-import all ADR11.MSC.Contract
-import all ADR11.MSC.Marginal
-import all ADR11.MSC.MultiSample
-import all ADR11.MSC.Relabel
-import all ADR11.Model
-import all ADR11.Model.History
-import all ADR11.Nonbinary
-import all ADR11.Nonbinary.AppendixC
-import all ADR11.Nonbinary.FiveTaxa
-import all ADR11.Nonbinary.FiveTaxa.Ac1Classes
-import all ADR11.Nonbinary.FiveTaxa.Shapes
-import all ADR11.Nonbinary.FiveTaxa.StarOneSplit
-import all ADR11.Nonbinary.FiveTaxa.TwoSplits
-import all ADR11.Nonbinary.FourTaxa
-import all ADR11.Nonbinary.Proposition11
-import all ADR11.Nonbinary.Theorem9
-import all ADR11.Nonbinary.Triples
-import all ADR11.Rootings.Proofs
-import all ADR11.Rootings.Statements
-import all ADR11.Rootings.Support
-import all ADR11.SmallTrees
-import all ADR11.Trees.Classify
-import all ADR11.Trees.Hierarchy
-import all ADR11.Trees.RootLocation
-import all Solution
+-- One `import all` line per module of the libraries, so that proofs are visible to the dependency
+-- traversal (the module system hides them from a plain `import`): every module of `Allman2011/`
+-- (`Basic/`, `External/` and the paper's library) and the paper's Solution in `palomar/`, but not the
+-- Challenge, which holds a copy of the Challenge's definitions under the same names; then every
+-- module of `Phylogenetics`, which this repository requires (lean4-phylogenetics,
+-- docs/CONVENTIONS.md, Section 3). Generate the lines with
+--   { find Allman2011 -name '*.lean'; cd palomar && find . -name Solution.lean; } |
+--     sed 's#^\./##; s/\.lean$//; s#/#.#g; s/^/import all /' | sort
+--   (cd .lake/packages/Phylogenetics && find Phylogenetics -name '*.lean') |
+--     sed 's/\.lean$//; s#/#.#g; s/^/import all /' | sort
+import all Allman2011.AppendixA
+import all Allman2011.AppendixC.Ac1Classes
+import all Allman2011.AppendixC.FiveTaxa
+import all Allman2011.AppendixC.Shapes
+import all Allman2011.AppendixC.StarOneSplit
+import all Allman2011.AppendixC.Tables
+import all Allman2011.AppendixC.TwoSplits
+import all Allman2011.Basic.Algebra.BigOperators.Group.List
+import all Allman2011.Basic.Analysis.SpecialFunctions.Exp
+import all Allman2011.Basic.Data.Fin.Basic
+import all Allman2011.Basic.Data.Finset.Basic
+import all Allman2011.Basic.Data.Fintype.Sigma
+import all Allman2011.Basic.Data.Nat.Bitwise
+import all Allman2011.Basic.Order.Interval.Finset.Nat
+import all Allman2011.Bridge
+import all Allman2011.Defs
+import all Allman2011.Discussion
+import all Allman2011.External.Cayley1857.Shapes
+import all Allman2011.External.Steel1992.Quartets
+import all Allman2011.External.Tavare1984.Formula
+import all Allman2011.FiveTaxa.Balanced
+import all Allman2011.FiveTaxa.Basic
+import all Allman2011.FiveTaxa.Caterpillar
+import all Allman2011.FiveTaxa.Explanations
+import all Allman2011.FiveTaxa.Lemma4
+import all Allman2011.FiveTaxa.Pseudocaterpillar
+import all Allman2011.FourTaxa.Analysis
+import all Allman2011.FourTaxa.Formulas
+import all Allman2011.FourTaxa.Proposition3
+import all Allman2011.Identifiability.Corollary10
+import all Allman2011.Identifiability.Corollary6
+import all Allman2011.Identifiability.FiveTaxa.Binary
+import all Allman2011.Identifiability.FiveTaxa.Classes
+import all Allman2011.Identifiability.FiveTaxa.Common
+import all Allman2011.Identifiability.Lemma5
+import all Allman2011.Identifiability.Proposition8
+import all Allman2011.Identifiability.Quartets
+import all Allman2011.Identifiability.Theorem9
+import all Allman2011.Introduction.Equation1
+import all Allman2011.Introduction.Proposition1
+import all Allman2011.Model
+import all Allman2011.Nonbinary.FourTaxa
+import all Allman2011.Nonbinary.Limits
+import all Allman2011.Nonbinary.Proposition11
+import all Allman2011.Nonbinary.Theorem9
+import all Allman2011.Nonbinary.Triples
+import all Allman2011.Nonbinary.Unrooted
+import all Allman2011.Rootings.Proofs
+import all Allman2011.Rootings.Statements
+import all Allman2011.Rootings.Support
+import all Allman2011.Solution
+import all Phylogenetics.Coalescent.Absorption
+import all Phylogenetics.Coalescent.BinaryForest
+import all Phylogenetics.Coalescent.Defs
+import all Phylogenetics.Coalescent.Factorization
+import all Phylogenetics.Coalescent.Forest
+import all Phylogenetics.Coalescent.Lump
+import all Phylogenetics.Coalescent.Outcome
+import all Phylogenetics.Coalescent.PMF
+import all Phylogenetics.Coalescent.Relabel
+import all Phylogenetics.Coalescent.Tavare
+import all Phylogenetics.Coalescent.Trace
+import all Phylogenetics.Computation.Caterpillar5
+import all Phylogenetics.Computation.Codes
+import all Phylogenetics.Computation.Engine
+import all Phylogenetics.Computation.FiveTaxa
+import all Phylogenetics.Computation.FourTaxa
+import all Phylogenetics.Computation.ThreeTaxa
+import all Phylogenetics.Computation.Toolkit
+import all Phylogenetics.ForMathlib.Analysis.MatrixExponential
+import all Phylogenetics.ForMathlib.MeasureTheory.HaarPreimage
+import all Phylogenetics.Graph.Basic
+import all Phylogenetics.Graph.Blobs
+import all Phylogenetics.Graph.BridgeCutLaminar
+import all Phylogenetics.Graph.Connectivity
+import all Phylogenetics.Graph.CutUniqueness
+import all Phylogenetics.Graph.Defs
+import all Phylogenetics.Graph.Degree
+import all Phylogenetics.Graph.Tree
+import all Phylogenetics.Hierarchy.Basic
+import all Phylogenetics.Hierarchy.Counts
+import all Phylogenetics.Hierarchy.Defs
+import all Phylogenetics.Hierarchy.Quartets
+import all Phylogenetics.Hierarchy.RootLocation
+import all Phylogenetics.Hierarchy.SpeciesTree
+import all Phylogenetics.MSC.Basic
+import all Phylogenetics.MSC.Classify
+import all Phylogenetics.MSC.Contract
+import all Phylogenetics.MSC.Defs
+import all Phylogenetics.MSC.History
+import all Phylogenetics.MSC.Marginal
+import all Phylogenetics.MSC.MultiSample
+import all Phylogenetics.MSC.Relabel
+import all Phylogenetics.MSC.Shapes
+import all Phylogenetics.MSC.Small
+import all Phylogenetics.NMSC.Analytic
+import all Phylogenetics.NMSC.Basic
+import all Phylogenetics.NMSC.Defs
+import all Phylogenetics.NMSC.DisplayedTreeModel
+import all Phylogenetics.NMSC.Exchangeability
+import all Phylogenetics.NMSC.Factor
+import all Phylogenetics.NMSC.Glue
+import all Phylogenetics.NMSC.History
+import all Phylogenetics.NMSC.Induced
+import all Phylogenetics.NMSC.InducedAbove
+import all Phylogenetics.NMSC.InducedParams
+import all Phylogenetics.NMSC.InducedRestrict
+import all Phylogenetics.NMSC.InducedSuppress
+import all Phylogenetics.NMSC.Inheritance
+import all Phylogenetics.NMSC.Level1.Arms
+import all Phylogenetics.NMSC.Level1.Basic
+import all Phylogenetics.NMSC.Level1.Consistency
+import all Phylogenetics.NMSC.Level1.Context
+import all Phylogenetics.NMSC.Level1.Cycle
+import all Phylogenetics.NMSC.Level1.Defs
+import all Phylogenetics.NMSC.Level1.Displays
+import all Phylogenetics.NMSC.Level1.GeneTrees
+import all Phylogenetics.NMSC.Level1.General
+import all Phylogenetics.NMSC.Level1.MetricCycle.Basic
+import all Phylogenetics.NMSC.Level1.MetricCycle.Instance
+import all Phylogenetics.NMSC.Level1.MetricCycle.RationalLengths
+import all Phylogenetics.NMSC.Level1.MetricCycle.Realization
+import all Phylogenetics.NMSC.Level1.MetricCycle.Reflection
+import all Phylogenetics.NMSC.Level1.Process
+import all Phylogenetics.NMSC.Level1.Sampling
+import all Phylogenetics.NMSC.Level1.Symmetry
+import all Phylogenetics.NMSC.Marginal
+import all Phylogenetics.NMSC.SpeciesTree
+import all Phylogenetics.NMSC.Symmetry
+import all Phylogenetics.NMSC.TreeCF
+import all Phylogenetics.NMSC.Witness
+import all Phylogenetics.Network.AncestralRestriction
+import all Phylogenetics.Network.Basic
+import all Phylogenetics.Network.CutHierarchy
+import all Phylogenetics.Network.Cuts
+import all Phylogenetics.Network.Defs
+import all Phylogenetics.Network.DeletedArcs
+import all Phylogenetics.Network.Induced
+import all Phylogenetics.Network.InducedMetric
+import all Phylogenetics.Network.Level1.CyclicOrder
+import all Phylogenetics.Network.Level1.Defs
+import all Phylogenetics.Network.Level1.Digraph.Basic
+import all Phylogenetics.Network.Level1.Digraph.Complete
+import all Phylogenetics.Network.Level1.Digraph.CompleteCycle
+import all Phylogenetics.Network.Level1.Digraph.CompleteDesc
+import all Phylogenetics.Network.Level1.Digraph.CompleteEmbed
+import all Phylogenetics.Network.Level1.Digraph.Correspondence
+import all Phylogenetics.Network.Level1.Digraph.CycleHybrid
+import all Phylogenetics.Network.Level1.Digraph.Defs
+import all Phylogenetics.Network.Level1.Digraph.Invariance
+import all Phylogenetics.Network.Level1.Digraph.Invariant
+import all Phylogenetics.Network.Level1.Digraph.InvariantCycle
+import all Phylogenetics.Network.Level1.Digraph.InvariantSide
+import all Phylogenetics.Network.Level1.Digraph.InvariantTree
+import all Phylogenetics.Network.Level1.Digraph.OfNet
+import all Phylogenetics.Network.Level1.Digraph.Sound
+import all Phylogenetics.Network.Level1.LevelOne
+import all Phylogenetics.Network.Level1.ToRootedNetwork
+import all Phylogenetics.Network.OfHierarchy
+import all Phylogenetics.Network.PendantCuts
+import all Phylogenetics.Network.Quartets
+import all Phylogenetics.Network.Semidirected
+import all Phylogenetics.Network.TreeOfBlobs
+import all Phylogenetics.Tree.AstralDP
+import all Phylogenetics.Tree.Defs
+import all Phylogenetics.Tree.Detach
+import all Phylogenetics.Tree.FourPoint
+import all Phylogenetics.Tree.GeneTree.AnchorNode
+import all Phylogenetics.Tree.GeneTree.Annotate
+import all Phylogenetics.Tree.GeneTree.Basic
+import all Phylogenetics.Tree.Metric
+import all Phylogenetics.Tree.NeighborJoining
+import all Phylogenetics.Tree.Splice
+import all Phylogenetics.Tree.Splits
+import all Phylogenetics.Tree.SplitsEquivalence
+import all Phylogenetics.Tree.XTree
 
 /-!
 # Axiom and dependency audit
@@ -78,12 +195,11 @@ import all Solution
 Run with `lake env lean scripts/Audit.lean` after `lake build`.
 
 For every numbered result of the paper, this prints the axioms it depends on and the results from
-prior work (`ADR11/External/`) that it uses, whether proved there or, in a conditional
-formalization, assumed as hypotheses of its statement. It then checks every declaration
-of the library and the theorems that Palomar's comparator checks. The run fails if any of them
-depends on an axiom other than Lean's standard `propext`, `Classical.choice` and `Quot.sound` (a
-`sorry` shows up as the axiom `sorryAx`). Its table of results is the source of the report's
-dependency table.
+prior work (`Allman2011/External/`) that it uses, whether proved there or, in a conditional formalization,
+assumed as hypotheses of its statement. It then checks every declaration of the library and the
+theorems that Palomar's comparator checks. The run fails if any of them depends on an axiom other
+than Lean's standard `propext`, `Classical.choice` and `Quot.sound` (a `sorry` shows up as the
+axiom `sorryAx`). Its table of results is the source of the report's dependency table.
 
 It also writes the *route* of every numbered result to `.lake/route_deps.tsv`: the other
 numbered results that its proof uses, found by following the proof through the library's helper
@@ -96,130 +212,144 @@ available: the module system does not export them otherwise. The traversal tests
 precomputed set of the library's constants; looking up each constant's module instead
 (`Environment.getModuleIdxFor?`) makes the interpreted script take minutes.
 
-To adapt: generate the `import all` lines, fill in the three lists, and set the library's root
-name in `isLibraryModule`. Keep one `import all` line per module of the library, each on its own
-line: a module that is missing is still imported through the others, but without its proofs, and
-the audit then misses the axioms and the routes inside them. The CI template checks the list.
+The libraries are this repository's modules and those of `Phylogenetics`, which it requires: the
+audit reads that library's proofs as well, so that one run covers every axiom that a result depends
+on. Several numbered results of the paper are formalized there (the counts of Section 1) and are
+listed under their names in `Phylogenetics`. The cited results are listed both as this repository
+states them in `Allman2011/External/` and as lean4-phylogenetics proves them, since the library's
+helper lemmas reach the latter. Keep one `import all` line per module of the libraries, each on its
+own line: a module that is missing is still imported through the others, but without its proofs,
+and the audit then misses the axioms and the routes inside them. CI checks the list.
 -/
 
 open Lean Elab Command
 
 namespace Audit
 
-/-- The results from prior work in `ADR11/External/`, with a short label: the theorems proved
-there and, in a conditional formalization, the propositions assumed as hypotheses. The traversal
-stops at them. -/
+/-- The results from prior work, with a short label: the theorems proved in `External/` or, when
+general, in `Basic/`, and, in a conditional formalization, the propositions assumed as hypotheses.
+The traversal stops at them. -/
 meta def externalResults : List (String × Name) :=
-  [("Tavaré 1984 (powers of the generator)", ``ADR11.deathPow_eq_tavare),
-   ("Tavaré 1984 (number of lineages)", ``ADR11.deathProb_eq_tavare),
-   ("Steel 1992; Semple–Steel 2003, Thm 6.3.5 (splits from quartets)",
-     ``ADR11.mem_unroot_iff_quartets),
-   ("Steel 1992, Prop. 6 (distinguishing quartets)", ``ADR11.exists_distinguishing_quartet),
-   ("Cayley 1857 (rooted shapes)", ``ADR11.cayley_shapes)]
+  [("Tavaré 1984 (number of lineages)", ``External.Tavare1984.deathProb_eq_tavare),
+   ("Tavaré 1984 (number of lineages), in lean4-phylogenetics", ``Phylogenetics.deathProb_eq_tavare),
+   ("Steel 1992; Bandelt–Dress 1986 (splits from quartets)",
+     ``External.Steel1992.mem_unroot_iff_quartets),
+   ("Steel 1992; Bandelt–Dress 1986 (splits from quartets), in lean4-phylogenetics",
+     ``Phylogenetics.mem_unroot_iff_quartets),
+   ("Steel 1992, Prop. 6 (distinguishing quartets)",
+     ``External.Steel1992.exists_distinguishing_quartet),
+   ("Steel 1992, Prop. 6 (distinguishing quartets), in lean4-phylogenetics",
+     ``Phylogenetics.exists_distinguishing_quartet),
+   ("Cayley 1857 (rooted shapes)", ``External.Cayley1857.cayley_shapes),
+   ("Cayley 1857 (rooted shapes), in lean4-phylogenetics", ``Phylogenetics.cayley_shapes)]
 
 /-- The numbered results of the paper, in the order of the paper. -/
 meta def paperResults : List (String × Name) :=
-  [("Eq (1)", ``ADR11.equation1),
-   ("Eq (1), converse", ``ADR11.equation1_iff),
-   ("Sec 1, triple branch length", ``ADR11.introduction_tripleLength),
-   ("Prop 1", ``ADR11.proposition1),
-   ("Cor 2", ``ADR11.corollary2),
-   ("Sec 1, (2n-3)!! rooted trees", ``ADR11.section1_card_rooted),
-   ("Sec 1, 2n-3 rootings", ``ADR11.section1_card_rootings),
-   ("Sec 1, (2n-5)!! unrooted trees", ``ADR11.section1_card_unrooted),
-   ("Sec 1, distribution (nonnegative)", ``ADR11.unrootedDist_nonneg),
-   ("Sec 1, distribution (sum 1)", ``ADR11.unrootedDist_sum),
-   ("Sec 1, nonbinary gene trees have probability 0", ``ADR11.rootedDist_support),
-   ("Sec 2, pendant lengths do not matter", ``ADR11.rootedDist_eq_of_sameRootedMetricTree),
-   ("Eq (2)", ``ADR11.equation2),
-   ("Eq (2), g sums to 1", ``ADR11.coalescenceProb_sum),
-   ("Eq (2), g_i1 limit", ``ADR11.tendsto_coalescenceProb_one),
-   ("Eq (2), g_ii limit", ``ADR11.tendsto_coalescenceProb_self),
-   ("Eq (2), g_ii", ``ADR11.coalescenceProb_self),
-   ("Sec 3, example 1", ``ADR11.section3_example1),
-   ("Sec 3, example 2", ``ADR11.section3_example2),
-   ("Eq (3)", ``ADR11.equation3),
-   ("Sec 3, polynomials", ``ADR11.section3_polynomial),
-   ("Sec 4.1, balanced", ``ADR11.fourTaxa_balanced),
-   ("Sec 4.1, caterpillar", ``ADR11.fourTaxa_caterpillar),
-   ("Sec 4.1, recovery", ``ADR11.fourTaxa_recovery),
-   ("Sec 4.1, five trees", ``ADR11.fourTaxa_sameDistribution),
-   ("Sec 4.1, labelled shapes", ``ADR11.fourTaxa_card_shapes),
-   ("Prop 3", ``ADR11.proposition3),
-   ("Lemma 4", ``ADR11.lemma4),
-   ("Lemma 4, six taxa", ``ADR11.lemma4_six),
-   ("Table 1", ``ADR11.table1),
-   ("Sec 4.2.1, classes", ``ADR11.balanced_classes),
-   ("Eq (4)", ``ADR11.equation4),
-   ("Eq (4), exhaustive", ``ADR11.equation4_exhaustive),
-   ("Sec 4.2.1, extreme classes", ``ADR11.balanced_extremeClasses),
-   ("Sec 4.2.1, degenerate", ``ADR11.balanced_degenerate),
-   ("Table 2", ``ADR11.table2),
-   ("Sec 4.2.2, marginalization", ``ADR11.caterpillar_marginalization),
-   ("Sec 4.2.2, classes", ``ADR11.caterpillar_classes),
-   ("Eq (5)", ``ADR11.equation5),
-   ("Eq (5), exhaustive", ``ADR11.equation5_exhaustive),
-   ("Sec 4.2.2, extreme classes", ``ADR11.caterpillar_extremeClasses),
-   ("Table 3", ``ADR11.table3),
-   ("Sec 4.2.3, classes", ``ADR11.pseudocaterpillar_classes),
-   ("Eq (6)", ``ADR11.equation6),
-   ("Eq (6), exhaustive", ``ADR11.equation6_exhaustive),
-   ("Sec 4.2.3, least class", ``ADR11.pseudocaterpillar_minClass),
-   ("Lemma 5", ``ADR11.lemma5),
-   ("Lemma 5, rooted", ``ADR11.lemma5_rooted),
-   ("Cor 6", ``ADR11.corollary6),
-   ("Prop 7", ``ADR11.proposition7),
-   ("Prop 8", ``ADR11.proposition8),
-   ("Eq (7)", ``ADR11.equation7),
-   ("Eq (8)", ``ADR11.equation8),
-   ("Eq (9)", ``ADR11.equation9),
-   ("Thm 9", ``ADR11.theorem9),
-   ("Thm 9, four taxa", ``ADR11.theorem9_four),
-   ("Cor 10", ``ADR11.corollary10),
-   ("Sec 5, three taxa", ``ADR11.section5_threeTaxa),
-   ("Sec 5, triples", ``ADR11.section5_triples),
-   ("Sec 5, Prop 1", ``ADR11.section5_proposition1),
-   ("Sec 5, Cor 2", ``ADR11.section5_corollary2),
-   ("Sec 5, four taxa", ``ADR11.section5_fourTaxa),
-   ("Sec 5, limits", ``ADR11.section5_limit),
-   ("Prop 11 (Prop 3)", ``ADR11.proposition11_proposition3),
-   ("Prop 11 (Cor 6)", ``ADR11.proposition11_corollary6),
-   ("Prop 11 (Prop 7)", ``ADR11.proposition11_proposition7),
-   ("Prop 11 (Prop 8)", ``ADR11.proposition11_proposition8),
-   ("Prop 11 (Thm 9)", ``ADR11.proposition11_theorem9),
-   ("Prop 11 (Thm 9, four taxa)", ``ADR11.proposition11_theorem9_four),
-   ("Prop 11 (Cor 10)", ``ADR11.proposition11_corollary10),
-   ("Sec 6, split probabilities", ``ADR11.discussion_splits),
-   ("Table 4", ``ADR11.table4),
-   ("Table 5", ``ADR11.table5),
-   ("Eqs (11)", ``ADR11.equation11),
-   ("Eqs (12)", ``ADR11.equation12),
-   ("Eqs (13)", ``ADR11.equation13),
-   ("Table 6", ``ADR11.table6),
-   ("Table 7", ``ADR11.table7),
-   ("Table 7, classes", ``ADR11.table7_classes),
-   ("App C, least classes", ``ADR11.appendixC_leastClass),
-   ("App C, degenerate", ``ADR11.appendixC_degenerate)]
+  [("Eq (1)", ``Allman2011.equation1),
+   ("Eq (1), converse", ``Allman2011.equation1_iff),
+   ("Sec 1, triple branch length", ``Allman2011.introduction_tripleLength),
+   ("Prop 1", ``Allman2011.proposition1),
+   ("Cor 2", ``Allman2011.corollary2),
+   ("Sec 1, (2n-3)!! rooted trees", ``Phylogenetics.section1_card_rooted),
+   ("Sec 1, 2n-3 rootings", ``Phylogenetics.section1_card_rootings),
+   ("Sec 1, (2n-5)!! unrooted trees", ``Phylogenetics.section1_card_unrooted),
+   ("Sec 1, distribution (nonnegative)", ``Allman2011.unrootedDist_nonneg),
+   ("Sec 1, distribution (sum 1)", ``Allman2011.unrootedDist_sum),
+   ("Sec 1, nonbinary gene trees have probability 0", ``Allman2011.rootedDist_support),
+   ("Sec 2, pendant lengths do not matter", ``Allman2011.rootedDist_eq_of_sameRootedMetricTree),
+   ("Eq (2)", ``Allman2011.equation2),
+   ("Eq (2), g sums to 1", ``Allman2011.coalescenceProb_sum),
+   ("Eq (2), g_i1 limit", ``Allman2011.tendsto_coalescenceProb_one),
+   ("Eq (2), g_ii limit", ``Allman2011.tendsto_coalescenceProb_self),
+   ("Eq (2), g_ii", ``Allman2011.coalescenceProb_self),
+   ("Sec 3, example 1", ``Allman2011.section3_example1),
+   ("Sec 3, example 2", ``Allman2011.section3_example2),
+   ("Eq (3)", ``Allman2011.equation3),
+   ("Sec 3, polynomials", ``Allman2011.section3_polynomial),
+   ("Sec 4.1, balanced", ``Allman2011.fourTaxa_balanced),
+   ("Sec 4.1, caterpillar", ``Allman2011.fourTaxa_caterpillar),
+   ("Sec 4.1, recovery", ``Allman2011.fourTaxa_recovery),
+   ("Sec 4.1, five trees", ``Allman2011.fourTaxa_sameDistribution),
+   ("Sec 4.1, labelled shapes", ``Allman2011.fourTaxa_card_shapes),
+   ("Prop 3", ``Allman2011.proposition3),
+   ("Lemma 4", ``Allman2011.lemma4),
+   ("Lemma 4, six taxa", ``Allman2011.lemma4_six),
+   ("Table 1", ``Allman2011.table1),
+   ("Sec 4.2.1, classes", ``Allman2011.balanced_classes),
+   ("Eq (4)", ``Allman2011.equation4),
+   ("Eq (4), exhaustive", ``Allman2011.equation4_exhaustive),
+   ("Sec 4.2.1, extreme classes", ``Allman2011.balanced_extremeClasses),
+   ("Sec 4.2.1, degenerate", ``Allman2011.balanced_degenerate),
+   ("Table 2", ``Allman2011.table2),
+   ("Sec 4.2.2, marginalization", ``Allman2011.caterpillar_marginalization),
+   ("Sec 4.2.2, classes", ``Allman2011.caterpillar_classes),
+   ("Eq (5)", ``Allman2011.equation5),
+   ("Eq (5), exhaustive", ``Allman2011.equation5_exhaustive),
+   ("Sec 4.2.2, extreme classes", ``Allman2011.caterpillar_extremeClasses),
+   ("Table 3", ``Allman2011.table3),
+   ("Sec 4.2.3, classes", ``Allman2011.pseudocaterpillar_classes),
+   ("Eq (6)", ``Allman2011.equation6),
+   ("Eq (6), exhaustive", ``Allman2011.equation6_exhaustive),
+   ("Sec 4.2.3, least class", ``Allman2011.pseudocaterpillar_minClass),
+   ("Lemma 5", ``Allman2011.lemma5),
+   ("Lemma 5, rooted", ``Allman2011.lemma5_rooted),
+   ("Cor 6", ``Allman2011.corollary6),
+   ("Prop 7", ``Allman2011.proposition7),
+   ("Prop 8", ``Allman2011.proposition8),
+   ("Eq (7)", ``Allman2011.equation7),
+   ("Eq (8)", ``Allman2011.equation8),
+   ("Eq (9)", ``Allman2011.equation9),
+   ("Thm 9", ``Allman2011.theorem9),
+   ("Thm 9, four taxa", ``Allman2011.theorem9_four),
+   ("Cor 10", ``Allman2011.corollary10),
+   ("Sec 5, three taxa", ``Allman2011.section5_threeTaxa),
+   ("Sec 5, triples", ``Allman2011.section5_triples),
+   ("Sec 5, Prop 1", ``Allman2011.section5_proposition1),
+   ("Sec 5, Cor 2", ``Allman2011.section5_corollary2),
+   ("Sec 5, four taxa", ``Allman2011.section5_fourTaxa),
+   ("Sec 5, limits", ``Allman2011.section5_limit),
+   ("Prop 11 (Prop 3)", ``Allman2011.proposition11_proposition3),
+   ("Prop 11 (Cor 6)", ``Allman2011.proposition11_corollary6),
+   ("Prop 11 (Prop 7)", ``Allman2011.proposition11_proposition7),
+   ("Prop 11 (Prop 8)", ``Allman2011.proposition11_proposition8),
+   ("Prop 11 (Thm 9)", ``Allman2011.proposition11_theorem9),
+   ("Prop 11 (Thm 9, four taxa)", ``Allman2011.proposition11_theorem9_four),
+   ("Prop 11 (Cor 10)", ``Allman2011.proposition11_corollary10),
+   ("Sec 6, split probabilities", ``Allman2011.discussion_splits),
+   ("Table 4", ``Allman2011.table4),
+   ("Table 5", ``Allman2011.table5),
+   ("Eqs (11)", ``Allman2011.equation11),
+   ("Eqs (12)", ``Allman2011.equation12),
+   ("Eqs (13)", ``Allman2011.equation13),
+   ("Table 6", ``Allman2011.table6),
+   ("Table 7", ``Allman2011.table7),
+   ("Table 7, classes", ``Allman2011.table7_classes),
+   ("App C, least classes", ``Allman2011.appendixC_leastClass),
+   ("App C, degenerate", ``Allman2011.appendixC_degenerate)]
 
-/-- The theorems that Palomar's comparator checks (`theorem_names` of `comparator.json`). -/
+/-- The theorems that Palomar's comparator checks (`theorem_names` of
+`palomar/Allman2011/comparator.json`), as the Solution restates them. -/
 meta def solutionResults : List Name :=
-  [``ADR11.Challenge.unrootedDist_nonneg,
-   ``ADR11.Challenge.unrootedDist_sum,
-   ``ADR11.Challenge.fourTaxa_balanced,
-   ``ADR11.Challenge.fourTaxa_caterpillar,
-   ``ADR11.Challenge.theorem9,
-   ``ADR11.Challenge.theorem9_four,
-   ``ADR11.Challenge.proposition3,
-   ``ADR11.Challenge.corollary10,
-   ``ADR11.Challenge.proposition11_theorem9,
-   ``ADR11.Challenge.proposition11_theorem9_four,
-   ``ADR11.Challenge.proposition11_corollary10]
+  [``Allman2011Challenge.unrootedDist_nonneg,
+   ``Allman2011Challenge.unrootedDist_sum,
+   ``Allman2011Challenge.fourTaxa_balanced,
+   ``Allman2011Challenge.fourTaxa_caterpillar,
+   ``Allman2011Challenge.theorem9,
+   ``Allman2011Challenge.theorem9_four,
+   ``Allman2011Challenge.proposition3,
+   ``Allman2011Challenge.corollary10,
+   ``Allman2011Challenge.proposition11_theorem9,
+   ``Allman2011Challenge.proposition11_theorem9_four,
+   ``Allman2011Challenge.proposition11_corollary10]
 
 /-- Lean's standard axioms. -/
 meta def standardAxioms : List Name := [``propext, ``Classical.choice, ``Quot.sound]
 
-/-- Whether `m` is a module of the library. -/
-meta def isLibraryModule (m : Name) : Bool := (`ADR11).isPrefixOf m
+/-- Whether `m` is a module of the libraries: under the root `Allman2011` (`Basic/`, `External/`,
+the paper's library and the Solution), but not the Challenge; or a module of `Phylogenetics`, which
+this repository requires, so that one run covers every axiom that a result depends on. -/
+meta def isLibraryModule (m : Name) : Bool :=
+  ((`Allman2011).isPrefixOf m && m != `Allman2011.Challenge) || (`Phylogenetics).isPrefixOf m
 
 /-- The constants declared in the library. -/
 meta def libraryConstants (env : Environment) : NameSet := Id.run do

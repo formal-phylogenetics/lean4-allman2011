@@ -1,0 +1,20 @@
+{
+  "challenge_module": "Allman2011.Challenge",
+  "solution_module": "Allman2011.Solution",
+  "theorem_names": [
+    "Allman2011Challenge.unrootedDist_nonneg",
+    "Allman2011Challenge.unrootedDist_sum",
+    "Allman2011Challenge.fourTaxa_balanced",
+    "Allman2011Challenge.fourTaxa_caterpillar",
+    "Allman2011Challenge.theorem9",
+    "Allman2011Challenge.theorem9_four",
+    "Allman2011Challenge.proposition3",
+    "Allman2011Challenge.corollary10",
+    "Allman2011Challenge.proposition11_theorem9",
+    "Allman2011Challenge.proposition11_theorem9_four",
+    "Allman2011Challenge.proposition11_corollary10"
+  ],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

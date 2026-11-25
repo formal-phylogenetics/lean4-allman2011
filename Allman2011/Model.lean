@@ -1,0 +1,173 @@
+module
+
+public import Mathlib
+public import Phylogenetics.Computation.Caterpillar5
+public import Phylogenetics.MSC.History
+public import Phylogenetics.MSC.Relabel
+public import Allman2011.External.Tavare1984.Formula
+
+/-!
+# Section 3: the multispecies coalescent model
+
+* `rootedDist_nonneg`, `rootedDist_sum`, `unrootedDist_nonneg`, `unrootedDist_sum`: the model
+  defines probability distributions on rooted and on unrooted gene trees (Section 1).
+* `equation2`: Tavaré's formula [Tavaré 1984] for `g_ij(t)`, the probability that `i` lineages
+  coalesce into `j` lineages within time `t` (`Phylogenetics.coalescenceProb`).
+* `coalescenceProb_nonneg`, `coalescenceProb_sum`: for `i > 1` and `t > 0`, the `g_ij(t)`,
+  `j = 1, …, i`, form a probability distribution; `tendsto_coalescenceProb_one`:
+  `g_i1(t) → 1` as `t → ∞`; `tendsto_coalescenceProb_self`: `g_ii(t) → 1` as `t → 0`;
+  `coalescenceProb_self`: `g_ii(t) = exp(-i(i-1)t/2)`.
+* `section3_example1`, `section3_example2`: the two worked examples of rooted gene tree
+  probabilities in the caterpillar species tree `((((a,b):x,c):y,d):z,e)`.
+* `equation3`: gene tree probabilities are sums, over finitely many coalescent histories, of a
+  constant depending only on the topologies times a product of `g`'s, as in equation (3).
+* `section3_polynomial`: rooted and unrooted gene tree probabilities are polynomials, with
+  rational coefficients, in the transformed branch lengths `exp(-x_b)`.
+* `rootedDist_eq_of_sameRootedMetricTree`: with one lineage per taxon, pendant edge lengths do
+  not matter (Section 2).
+* `rootedDist_support`: gene trees are binary with probability `1` (Sections 1 and 5).
+-/
+
+@[expose] public section
+
+namespace Allman2011
+
+open Phylogenetics
+
+open Finset Real Filter Topology
+
+variable {X : Type*} [Fintype X] [DecidableEq X]
+
+/-- The multispecies coalescent defines a probability distribution on rooted gene trees: the
+probabilities are nonnegative. -/
+theorem rootedDist_nonneg {L : Type*} [Fintype L] [DecidableEq L] (σ : SpeciesTree X)
+    (s : L → X) (G : Finset (Finset L)) : 0 ≤ σ.rootedDist s G :=
+  σ.forestDist_nonneg_of_mem s σ.univ_mem G
+
+/-- The multispecies coalescent defines a probability distribution on rooted gene trees: the
+probabilities sum to `1`. -/
+theorem rootedDist_sum {L : Type*} [Fintype L] [DecidableEq L] (σ : SpeciesTree X) (s : L → X) :
+    ∑ G, σ.rootedDist s G = 1 :=
+  σ.forestDist_sum_eq_one s σ.univ_mem
+
+/-- Section 1: the unrooted gene tree probabilities form a well-defined probability distribution:
+they are nonnegative ... -/
+theorem unrootedDist_nonneg {L : Type*} [Fintype L] [DecidableEq L] (σ : SpeciesTree X)
+    (s : L → X) (T : Finset (Finset L)) : 0 ≤ σ.unrootedDist s T :=
+  unrootedDistOf_nonneg σ.isHierarchy (fun A hA hAu => (σ.length_pos A hA hAu).le) s T
+
+/-- ... and sum to `1`. -/
+theorem unrootedDist_sum {L : Type*} [Fintype L] [DecidableEq L] (σ : SpeciesTree X)
+    (s : L → X) : ∑ T, σ.unrootedDist s T = 1 :=
+  unrootedDistOf_sum σ.isHierarchy σ.length s
+
+/-- **Equation (2)** [Tavaré 1984]: for `1 ≤ j ≤ i` and `t > 0`,
+`g_ij(t) = ∑_{k=j}^{i} exp(-k(k-1)t/2) (2k-1)(-1)^{k-j} / (j!(k-j)!(j+k-1)) ∏_{m=0}^{k-1}
+(j+m)(i-m)/(i+m)`. -/
+theorem equation2 (i j : ℕ) (hj : 1 ≤ j) (hji : j ≤ i) (t : ℝ) :
+    coalescenceProb i j t =
+      ∑ k ∈ Icc j i, exp (-((k.choose 2 : ℕ) : ℝ) * t) *
+        ((2 * k - 1) * (-1) ^ (k - j) / ((j.factorial : ℝ) * (k - j).factorial * (j + k - 1))) *
+          ∏ m ∈ range k, (((j : ℝ) + m) * ((i : ℝ) - m) / ((i : ℝ) + m)) := by
+  rw [coalescenceProb_eq_deathProb, External.Tavare1984.deathProb_eq_tavare i j hj hji t]
+  refine sum_congr rfl fun k _ => ?_
+  rw [tavareCoeff, neg_mul]
+  exact (mul_assoc _ _ _).symm
+
+/-- The `g_ij(t)` are nonnegative. -/
+theorem coalescenceProb_nonneg (i j : ℕ) (t : ℝ) (ht : 0 < t) : 0 ≤ coalescenceProb i j t := by
+  rw [coalescenceProb_eq_deathProb]
+  exact deathProb_nonneg i j ht.le
+
+/-- For `i > 1` and `t > 0`, the `g_ij(t)`, `j = 1, …, i`, form a probability distribution. -/
+theorem coalescenceProb_sum (i : ℕ) (hi : 1 < i) (t : ℝ) :
+    ∑ j ∈ Icc 1 i, coalescenceProb i j t = 1 := by
+  simp_rw [coalescenceProb_eq_deathProb]
+  exact deathProb_sum_Icc hi.le t
+
+/-- Given enough time, all lineages coalesce: `g_i1(t) → 1` as `t → ∞`, for `i > 1`. -/
+theorem tendsto_coalescenceProb_one (i : ℕ) (hi : 1 < i) :
+    Tendsto (coalescenceProb i 1) atTop (𝓝 1) := by
+  have h := tendsto_deathProb i 1 hi.le
+  rw [ite_eq_left rfl] at h
+  have e : coalescenceProb i 1 = deathProb i 1 :=
+    funext fun t => coalescenceProb_eq_deathProb i 1 t
+  rw [e]
+  exact h
+
+/-- Over short times no coalescence is likely: `g_ii(t) → 1` as `t → 0⁺`. -/
+theorem tendsto_coalescenceProb_self (i : ℕ) :
+    Tendsto (coalescenceProb i i) (𝓝[>] 0) (𝓝 1) := by
+  have e : coalescenceProb i i = fun t => exp (-(((i.choose 2 : ℕ) : ℝ) * t)) :=
+    funext fun t => by rw [coalescenceProb_eq_deathProb, deathProb_self]
+  rw [e]
+  refine tendsto_nhdsWithin_of_tendsto_nhds ?_
+  have hc : Continuous fun t : ℝ => exp (-(((i.choose 2 : ℕ) : ℝ) * t)) := by fun_prop
+  simpa using hc.tendsto 0
+
+/-- `g_ii(t) = exp(-i(i-1)t/2)`. -/
+theorem coalescenceProb_self (i : ℕ) (t : ℝ) :
+    coalescenceProb i i t = exp (-((i : ℝ) * (i - 1) * t / 2)) := by
+  rw [coalescenceProb_eq_deathProb, deathProb_self, Nat.cast_choose_two]
+  ring_nf
+
+/-- First worked example of Section 3: in the caterpillar species tree
+`((((a,b):x,c):y,d):z,e)`, the rooted gene tree `((((B,E),A),C),D)` has probability
+`X Y³ Z⁶ / 180`, where `X = e^{-x}`, `Y = e^{-y}`, `Z = e^{-z}`. -/
+theorem section3_example1 (σ : SpeciesTree (Fin 5)) (hσ : σ.clusters = caterpillar5) :
+    σ.rootedDist id (hierarchyOf {{1, 4}, {0, 1, 4}, {0, 1, 2, 4}}) =
+      exp (-σ.length {0, 1}) * exp (-σ.length {0, 1, 2}) ^ 3 *
+        exp (-σ.length {0, 1, 2, 3}) ^ 6 / 180 :=
+  Computation.rootedDist_cat5_example1 σ hσ
+
+/-- Second worked example of Section 3: in the same caterpillar species tree, the rooted gene tree
+`(((B,E),A),(C,D))` has probability `X Y³ Z³ / 54 - X Y³ Z⁶ / 540`. -/
+theorem section3_example2 (σ : SpeciesTree (Fin 5)) (hσ : σ.clusters = caterpillar5) :
+    σ.rootedDist id (hierarchyOf {{1, 4}, {0, 1, 4}, {2, 3}}) =
+      exp (-σ.length {0, 1}) * exp (-σ.length {0, 1, 2}) ^ 3 *
+          exp (-σ.length {0, 1, 2, 3}) ^ 3 / 54 -
+        exp (-σ.length {0, 1}) * exp (-σ.length {0, 1, 2}) ^ 3 *
+          exp (-σ.length {0, 1, 2, 3}) ^ 6 / 540 :=
+  Computation.rootedDist_cat5_example2 σ hσ
+
+/-- **Equation (3)** (`E:phist`) and the history decomposition [Degnan–Salter 2005]: for a species tree
+topology `H` and a rooted gene tree `G`, there are finitely many coalescent histories `h`, with
+constants `c(h)` and numbers `i(h,b) ≥ j(h,b)` of lineages entering and leaving each internal
+population `b`, depending only on `H` and `G`, such that for every species tree with topology `H`,
+`ℙ(G) = ∑_h c(h) ∏_b g_{i(h,b) j(h,b)}(x_b)`, with `c(h) > 0` and
+`1 ≤ j(h,b) ≤ i(h,b) ≤ |b|`. -/
+theorem equation3 (H : Finset (Finset X)) (G : Finset (Finset X)) :
+    ∃ (ι : Type) (_ : Fintype ι) (c : ι → ℚ) (i j : ι → Finset X → ℕ),
+      (∀ h, 0 < c h) ∧
+      (∀ h, ∀ b ∈ H, b ≠ univ → 2 ≤ #b → 1 ≤ j h b ∧ j h b ≤ i h b ∧ i h b ≤ #b) ∧
+      ∀ σ : SpeciesTree X, σ.clusters = H →
+        σ.rootedDist id G =
+          ∑ h : ι, (c h : ℝ) * ∏ b ∈ H with b ≠ univ ∧ 2 ≤ #b,
+            coalescenceProb (i h b) (j h b) (σ.length b) :=
+  model_equation3 H G
+
+/-- Gene tree probabilities, rooted and unrooted, are polynomials with rational coefficients in
+the transformed branch lengths `X_b = exp(-x_b)`, depending only on the topologies. -/
+theorem section3_polynomial (H : Finset (Finset X)) (G T : Finset (Finset X)) :
+    ∃ p q : MvPolynomial (Finset X) ℚ,
+      ∀ σ : SpeciesTree X, σ.clusters = H →
+        σ.rootedDist id G = MvPolynomial.aeval (fun b => exp (-σ.length b)) p ∧
+        σ.unrootedDist id T = MvPolynomial.aeval (fun b => exp (-σ.length b)) q :=
+  model_section3_polynomial H G T
+
+/-- Section 2: with one lineage sampled per taxon, pendant edge lengths do not affect the
+probability of any gene tree: the rooted (hence unrooted) gene tree distribution depends only on
+the rooted metric species tree `σ⁺`. -/
+theorem rootedDist_eq_of_sameRootedMetricTree {σ σ' : SpeciesTree X}
+    (h : σ.SameRootedMetricTree σ') : σ.rootedDist id = σ'.rootedDist id :=
+  model_rootedDist_eq_of_sameRootedMetricTree h
+
+/-- Sections 1 and 5: gene trees are binary with probability `1`, even when the species tree has
+polytomies: a rooted gene tree with positive probability is a binary hierarchy on the lineages
+(at least one lineage being sampled). -/
+theorem rootedDist_support {L : Type*} [Fintype L] [DecidableEq L] [Nonempty L]
+    (σ : SpeciesTree X) (s : L → X) {G : Finset (Finset L)} (hG : σ.rootedDist s G ≠ 0) :
+    IsHierarchy G ∧ ∀ A ∈ G, 2 ≤ #A → ∃ B ∈ G, ∃ C ∈ G, Disjoint B C ∧ B ∪ C = A :=
+  model_rootedDist_support σ s hG
+
+end Allman2011

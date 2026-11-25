@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Generate ADR11/AppendixA.lean (Tables 4 and 5 of the paper) from the paper's TeX source.
+"""Generate Allman2011/AppendixA.lean (Tables 4 and 5 of the paper) from the paper's TeX source.
 
-Usage: python3 scripts/gen_appendixA.py PAPER.tex > ADR11/AppendixA.lean
+Usage: python3 scripts/gen_appendixA.py PAPER.tex > Allman2011/AppendixA.lean
 Each rooted tree R_j of Table 4 is written as `hierarchyOf C`, where `C` is the set of its
 nontrivial clusters (taxa A..E = 0..4); Table 5's decompositions are copied as listed.
 
 Proofs: the script also writes the codes of the clusters of each R_j (bit i of a code = taxon i),
 `R5code j`, checked against `R5 j` by the kernel. `table4` then follows from the verified
-enumeration of the binary hierarchies of `ADR11/Rootings/Support.lean` (`ADR11.root_table`), and
-each line of `table5` from `ADR11.root_u_eq_sum`, with the indices `j` of the rooted versions of
+enumeration of the binary hierarchies of `Allman2011/Rootings/Support.lean` (`Allman2011.root_table`), and
+each line of `table5` from `Allman2011.root_u_eq_sum`, with the indices `j` of the rooted versions of
 `T_i` (sorted) checked by the kernel."""
 import re, sys
 
@@ -48,8 +48,8 @@ def lean_set(c):
 out = []
 out.append('''module
 
-public import ADR11.SmallTrees
-public import ADR11.Rootings.Support
+public import Allman2011.Rootings.Support
+public import Phylogenetics.MSC.Small
 
 /-!
 # Appendix A: the rooted and unrooted 5-taxon gene trees (Tables 4 and 5)
@@ -65,12 +65,14 @@ by hand.
   probabilities `r_j = ℙ(R_j)` listed in Table 5.
 
 The proofs use the codes `R5code j` of the clusters of `R5 j` (bit `i` of a code is taxon `i`) and
-the verified enumeration of the binary hierarchies of `ADR11.Rootings.Support`.
+the verified enumeration of the binary hierarchies of `Allman2011.Rootings.Support`.
 -/
 
 @[expose] public section
 
-namespace ADR11
+namespace Allman2011
+
+open Phylogenetics
 
 open Finset
 
@@ -99,7 +101,7 @@ private theorem R5_eq_decF : ∀ j ∈ Icc 1 105, R5 j = Computation.decF 5 (R5c
 private theorem R5_tableB : root_tableB 5 ((List.range' 1 105).map R5code) = true := by
   decide +kernel
 
-/-- **Table 4.** The trees `R₁, …, R₁₀₅` are distinct, and they are exactly the rooted binary
+/-- **Table 4** (`T:5taxarooted`). The trees `R₁, …, R₁₀₅` are distinct, and they are exactly the rooted binary
 trees on five taxa. -/
 theorem table4 :
     Set.InjOn R5 (Icc 1 105 : Finset ℕ) ∧
@@ -107,7 +109,7 @@ theorem table4 :
         (∃ τ : SpeciesTree (Fin 5), τ.clusters = G ∧ τ.IsBinary) ↔ ∃ j ∈ Icc 1 105, R5 j = G := by
   exact root_table R5 R5code 105 R5_eq_decF R5_tableB
 
-/-- **Table 5.** Each unrooted gene tree probability `u_i = ℙ(T_i)` is the sum of the
+/-- **Table 5** (`T:5taxaprobs`). Each unrooted gene tree probability `u_i = ℙ(T_i)` is the sum of the
 probabilities of its seven rooted versions listed in the table. -/
 theorem table5 (σ : SpeciesTree (Fin 5)) :''')
 lines = []
@@ -122,5 +124,5 @@ for i in range(1, 16):
     proof.append(f'  · rw [h {i} (by decide) [{", ".join(map(str, js))}] (by decide +kernel)]')
     proof.append('    simp only [r, List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]')
     proof.append('    ring')
-out.append(' ∧\n'.join(lines) + ' := by\n' + '\n'.join(proof) + '\n\nend ADR11')
+out.append(' ∧\n'.join(lines) + ' := by\n' + '\n'.join(proof) + '\n\nend Allman2011')
 print('\n'.join(out))

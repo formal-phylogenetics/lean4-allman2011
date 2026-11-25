@@ -1,7 +1,8 @@
-name = "ADR11"
-version = "0.1.0"
-keywords = ["math"]
-defaultTargets = ["ADR11", "Challenge", "Solution"]
+name = "Allman2011"
+version = "0.2.0"
+keywords = ["math", "phylogenetics"]
+description = "A Lean 4 formalization of Allman, Degnan, Rhodes 2011, Identifying the rooted species tree from the distribution of unrooted gene trees under the coalescent"
+defaultTargets = ["Allman2011", "Palomar"]
 
 [leanOptions]
 pp.unicode.fun = true
@@ -9,17 +10,33 @@ autoImplicit = false
 relaxedAutoImplicit = false
 maxSynthPendingDepth = 3
 
+# The root of the collection: the shared library of phylogenetics.
+[[require]]
+name = "Phylogenetics"
+git = "https://github.com/vltanh/lean4-phylogenetics"
+rev = "b56ce531644230622f069aaa8aa51a5143c1411e"
+
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
 rev = "v4.37.0-rc1"
 
-[[lean_lib]]
-name = "ADR11"
-globs = ["ADR11.+"]
+# Every module of the project is in Allman2011/, but its Challenge and its Solution, which are in
+# palomar/ (lean4-phylogenetics, docs/CONVENTIONS.md, Sections 2 and 3). Lake fails on a glob whose
+# directory, or a root whose file, does not exist.
 
+# The paper's library, in the namespace Allman2011: general mathematics in Allman2011/Basic/, the
+# results the paper cites in Allman2011/External/, the definitions of the Challenge in
+# Allman2011/Defs.lean, and the paper's sections.
 [[lean_lib]]
-name = "Challenge"
+name = "Allman2011"
+globs = ["Allman2011.+"]
 
+# The paper's Challenge and Solution, the modules Allman2011.Challenge and Allman2011.Solution of
+# the source directory palomar/ (Comparator: palomar/Allman2011/comparator.json). Declared last:
+# Lake gives a module to the last library whose patterns match it, and the glob above matches
+# these names when the paper's name is the root.
 [[lean_lib]]
-name = "Solution"
+name = "Palomar"
+srcDir = "palomar"
+roots = ["Allman2011.Challenge", "Allman2011.Solution"]
