@@ -163,10 +163,6 @@ quartet-based methods such as ASTRAL (Mirarab et al. 2014). We found no earlier 
 this paper; the Lean library [SauersML/Descent](https://github.com/SauersML/Descent) formalizes parts
 of coalescent theory, without the multispecies coalescent or unrooted gene trees, and was not used.
 
-## What's next
-
-A private `NEXT.md` holds the candidate follow-up papers.
-
 ## Credits
 
 - Maintainer: The-Anh Vu-Le, who requested and supervised the formalization.
