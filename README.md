@@ -17,8 +17,8 @@ lengths are determined too (Corollary 10); and all of this holds for nonbinary s
 The formalization is unconditional: every result of the paper is proved, by the paper's
 arguments, together with the results it cites.
 
-This paper belongs to the hub [lean4-phylo-species-tree](https://github.com/formal-phylogenetics/lean4-phylo-species-tree),
-on species tree estimation, in the collection rooted at [lean4-phylogenetics](https://github.com/formal-phylogenetics/lean4-phylogenetics).
+This paper belongs to the hub [lean4-phylo-statistics](https://github.com/formal-phylogenetics/lean4-phylo-statistics),
+on the statistical theory of phylogenetic inference, in the collection rooted at [lean4-phylogenetics](https://github.com/formal-phylogenetics/lean4-phylogenetics).
 Its theorems are stated on the types of lean4-phylogenetics, which holds the model (species trees,
 Kingman's coalescent, the multispecies coalescent) and the general results, so that other
 repositories of the collection can use them.
